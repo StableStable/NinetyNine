@@ -1,0 +1,633 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- 2023/5/4, Rares In 2283 -->
+
+<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, "><style>    
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 300;
+  src: url("ubuntu.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+        :root {
+            color-scheme: dark;
+	  --white: rgb(255, 255, 255);
+          --gray: rgb(150, 150, 150);
+          --gray2: rgb(200, 200, 200);
+          --bg1: rgb(40, 40, 40);
+          --bg2: rgb(35, 35, 35);
+          --bg: rgb(30, 30, 30);
+          --notif: rgba(50, 50, 50, 0.3);
+          --blackT: rgba(0, 0, 0, .6);
+          --infoF: invert(1);
+	  --Tbg: rgb(40, 40, 40);
+	  --Tnotif: rgba(50, 50, 50, 0.3);
+	  --Tgray: rgb(150, 150, 150);
+	          }
+	
+        .sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar {
+          width: 10px;
+          height: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            opacity: 1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(120, 120, 120, .5);
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(140, 140, 140, .5);
+        }
+
+        .notifText {    
+            text-align: center;
+            font-family: Ubuntu;
+            color: var(--white);
+            font-size: 70%;
+            padding: 4px;
+            overflow-wrap: break-word;
+	    user-select: none;
+	    pointer-events: none;
+        }
+
+        .notif {
+            backdrop-filter: blur(5px);
+            width: 200px;
+            text-align: center;
+            background-color: var(--notif);
+            padding: 2px;
+            margin-top: 10px;
+            border-radius: 4px;
+            box-shadow: 0 1px 5px 0.1px rgb(5 5 5);
+            transition: all .1s cubic-bezier(0.3, 0, 0.5, 1);
+	    user-select: none;
+	    pointer-events: none;
+        }
+	
+    ::-webkit-scrollbar-corner {
+        display: none
+    }
+    
+    .infoP {
+	    position: absolute;
+	    filter: var(--infoF);
+	    width: 15px;
+	    height: 15px;
+	    top: 30px;
+	    margin-top: -7.5;
+	    right: 215px;
+	    cursor: pointer;
+    }
+    
+    .promptText {
+        font-family: Ubuntu;
+        text-align: center;
+        position: relative;
+        font-size: 75%;
+        margin: 0;
+        line-height: 160%;
+    }
+    .promptTitle {
+        font-size: 130%;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+    .bg {
+        display: none;
+        background-color: var(--blackT);
+        z-index: 4;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+        .prompt {
+	    text-align: center;
+	    padding: 15px 10px;
+            overflow: auto;
+            -ms-overflow-style: none;  
+            scrollbar-width: none;
+            margin-block-start: 0px;
+            margin-block-end: 0px;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            margin: auto;
+            box-shadow: -0px 0px 4px 1px rgb(0, 0, 0);
+            background-color : var(--bg2);
+            border-radius: 2px;
+            max-height: 70%;
+            max-width: 50%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+        color: var(--white);
+            opacity: 0;
+        }
+    .generic {
+    font-family: Consolas, monospace;position:absolute;font-weight:bold;color:var(--white); font-size: 15px; left: 20px;
+    }
+    .button {
+            font-size: 10px;
+            font-family: Ubuntu;
+            outline: none;
+            border-top-style: hidden;
+            border-right-style: hidden;
+            border-left-style: hidden;
+            border-bottom-style: hidden;
+	box-shadow: 0px 1px 4px black;
+        background-color : var(--bg1);
+        color : var(--white);
+        border-radius: 2px;
+        position: absolute;
+    }
+    .button:active {
+        box-shadow: 0px 1px 6px black;
+    }
+    .scriptElement {
+        font-family: Ubuntu;
+        height: 60px;
+        width: 100%;
+        background-color: var(--bg2);
+        margin-block-start: 0px;
+        margin-block-end: 0px;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        padding-inline-start: 0px;
+        margin: auto;
+        box-shadow: 0px 0px 1px 0.8px rgb(20 20 20);
+    }
+        .search:focus {
+        	box-shadow: 0px 1px 6px black;
+        }
+        .search {
+            font-size: 12px;
+            text-indent: 10px;
+            font-family: Consolas, monospace;
+            outline: none;
+            border-top-style: hidden;
+            border-right-style: hidden;
+            border-left-style: hidden;
+            border-bottom-style: hidden;
+            box-shadow: 0px 1px 4px black;
+            background-color : var(--bg1);
+            color : var(--white);
+            border-radius: 2px;
+            top: 13%;
+            width: 450px;
+            height: 5%;
+            left: 50%;
+            margin-left: -25px;
+            transform: translate(-50%, 0);
+            position: absolute;
+        }
+        body {
+            background-color: var(--bg);
+        }
+        .title {
+            color: var(--white);
+            font-family: Ubuntu;
+            font-size: 3vh;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            left: 0px;
+            top: 0px;
+            position: absolute;
+        }
+        .topbar {
+            box-shadow: 0px 1px 6px black;
+            background-color : var(--bg1);
+            height: 8%;
+            width: 100%;
+            left: 0px;
+            top: 0px;
+            position: absolute;
+z-index: 3;
+        }
+        .scripts::-webkit-scrollbar {
+           display: none;
+        }
+        .scripts {
+            overflow: auto;
+            -ms-overflow-style: none;  
+            scrollbar-width: none;
+            margin-block-start: 0px;
+            margin-block-end: 0px;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            padding-inline-start: 0px;
+            margin: auto;
+            box-shadow: -0px 0px 4px 1px rgb(0, 0, 0);
+            background-color : var(--bg1);
+            border-radius: 2px;
+            height: 75%;
+            width: 500px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            margin-top: 8vh;
+            position: absolute;
+        }
+        .input:focus {
+            box-shadow: 0px 1px 6px black;
+        }
+        li {
+                white-space: pre-wrap;
+                color: var(--white);
+                list-style-type: none;
+                z-index: 6;
+                font-family: Consolas, monospace;
+                opacity: 1;
+                font-size: 14px;
+        }
+	.gkey {
+	text-align:center;height:30px;width:90px;top: 15px; right: 80px;color: var(--white);
+	}
+	.stype {
+	font-weight:bold;color:var(--gray);font-size: 9px; padding: 4px 0;
+	}
+	.edit {
+	text-align:center;height:30px;width:45px;top: 15px; right: 20px;color: var(--white);
+	}
+	.owner {
+	font-family: Consolas, monospace;position:absolute;font-weight:bold;font-size: 8px;padding: 0 6px;color:var(--gray2);width: 200px; top: 50%; transform: translate(0, -50%);
+	}
+    </style>
+</head>
+
+<body>
+    <title>Home</title>
+    <div class="topbar">
+        <h1 class="title"> Home </h1>
+	
+	    <input style="height:0px; width:0px; display:block; position: absolute;" accept=".jpeg,.png,.tiff,.bmp,.jpg" id="Tufile" type="file"> 
+	    <style>
+	    
+	:root {
+		--Tblack: rgba(0, 0, 0, .6);;
+		--Tbg2: rgb(35, 35, 35);
+		--Tnotif: rgba(50, 50, 50, 0.3);;
+	}
+	    
+    .Tbutton {
+            font-size: 10px;
+            font-family: Ubuntu;
+            outline: none;
+            border-top-style: hidden;
+            border-right-style: hidden;
+            border-left-style: hidden;
+            border-bottom-style: hidden;
+	box-shadow: 0px 1px 4px black;
+        background-color : var(--Tbg);
+        color : var(--white);
+        border-radius: 2px;
+        position: absolute;
+    }
+    .Tbutton:active {
+        box-shadow: 0px 1px 6px black;
+    }
+    
+    
+    
+    .promptText {
+        font-family: Ubuntu;
+        text-align: center;
+        position: relative;
+        font-size: 75%;
+        margin: 0;
+        line-height: 160%;
+    }
+    .promptTitle {
+        font-size: 130%;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+    
+    .Tbg {
+        display: none;
+        background-color: var(--Tblack);
+        z-index: 6;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+        .Tprompt {
+	    text-align: center;
+	    padding: 15px 10px;
+            overflow: auto;
+            -ms-overflow-style: none;  
+            scrollbar-width: none;
+            margin-block-start: 0px;
+            margin-block-end: 0px;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            margin: auto;
+            box-shadow: -0px 0px 4px 1px rgb(0, 0, 0);
+            background-color : var(--Tbg2);
+            border-radius: 2px;
+            max-height: 70%;
+            max-width: 50%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+        color: var(--white);
+            opacity: 0;
+        }
+	    
+		.notifText {    
+		    text-align: center;
+		    font-family: Ubuntu;
+		    color: var(--white);
+		    font-size: 70%;
+		    padding: 4px;
+		    overflow-wrap: break-word;
+		    user-select: none;
+		    pointer-events: none;
+		}
+
+		.notif {
+		    backdrop-filter: blur(5px);
+		    -webkit-backdrop-filter: blur(5px);
+		    width: 200px;
+		    text-align: center;
+		    background-color: var(--Tnotif);
+		    padding: 2px;
+		    margin-top: 10px;
+		    border-radius: 4px;
+		    box-shadow: 0 1px 5px 0.1px rgb(5 5 5);
+		    transition: all .1s cubic-bezier(0.3, 0, 0.5, 1);
+		    user-select: none;
+		    pointer-events: none;
+		    -webkit-user-select: none;
+		    
+		}
+		
+		#TpromptApp input:focus {
+		    box-shadow: 0px 1.5px 4px black;
+		}
+	
+		#TpromptApp input {
+		    font-size: 12px;
+		    text-indent: 10px;
+		    font-family: Consolas;
+		    outline: none;
+		    border-top-style: hidden;
+		    border-right-style: hidden;
+		    border-left-style: hidden;
+		    border-bottom-style: hidden;
+		    box-shadow: 0px 1px 4px black;
+		    background-color : var(--Tbg);
+		    color: var(--white);
+		    border-radius: 2px;
+		    width: 200px;
+		    height: 30px;
+		    position: relative;
+		    margin-top: 10px;
+		    transition: cubic-bezier(0.83, -0.17, 0.25, 1) .3s;
+		    transition-property: border;
+		}
+		
+		.TPlistButton:hover {
+		    background-color : rgb(0, 80, 120);
+		}
+
+		.TPlist {
+		    position: absolute;
+		    width: 120px;
+		    background-color: var(--Tbg);
+		    top: calc(100% - 6px);
+		    z-index: 2;
+		    box-shadow: 0 0.2px 2px 0.1px black;
+		    display: none;
+		}
+
+		.TPshowObject {
+		    display: block !important;
+		}
+
+		.TPlistButton {
+		    font-size: 10px;
+		    font-family: Ubuntu;
+		    outline: none;
+		    border-top-style: hidden;
+		    border-right-style: hidden;
+		    border-left-style: hidden;
+		    border-bottom-style: hidden;
+		    background-color : var(--Tbg);
+		    color : var(--white);
+		    cursor: pointer;
+		    width: 100%;
+		    padding: 6px;
+		    border-radius: 0px;
+		}
+
+		.notifText {    
+		    text-align: center;
+		    font-family: Ubuntu;
+		    color: var(--white);
+		    font-size: 70%;
+		    padding: 4px;
+		    overflow-wrap: break-word;
+		    user-select: none;
+		    pointer-events: none;
+		}
+
+		.notif {
+		    backdrop-filter: blur(5px);
+		    width: 200px;
+		    text-align: center;
+		    background-color: var(--Tnotif);
+		    padding: 2px;
+		    margin-top: 10px;
+		    border-radius: 4px;
+		    box-shadow: 0 1px 5px 0.1px rgb(5 5 5);
+		    transition: all .1s cubic-bezier(0.3, 0, 0.5, 1);
+		    user-select: none;
+		    pointer-events: none;
+		}
+	</style>
+	<div style="
+	    right: 20px;
+	    top: 50%;
+	    position: absolute;
+	    transform: translateY(calc(-50% - 2px));
+	    height: 4vh;
+	    width: 4vh;
+	    ">
+	    <div class="TPlist" id="avatarList" style="right: 2px;margin-top: 10px;">
+		<button class="TPlistButton" id="TavatarB">Set avatar</button>
+		<button class="TPlistButton" id="TlightM">Light mode</button>
+		<div style="width: 90%; height: 1px; background-color: var(--Tgray);margin: 3px 3px 3px 5%;"></div>
+		<button class="TPlistButton" id="TchangeP" style="">Change password</button>
+		<button class="TPlistButton" id="TresetSID" style="color: rgb(200, 0, 0);">Log out other devices</button>
+		<button class="TPlistButton" id="TlogOut" style="color: rgb(200, 0, 0);">Log out</button>
+	    </div>
+	</div>
+    </div>
+
+    
+    <input class="search" id="search" placeholder="Search">
+    <button id="addScript" class="button" style="
+    width: 40px;
+    height: 5%;
+    top: 13%;
+    left: 50%;
+    margin-left: 230px;
+    transform: translate(-50%, 0);
+    position: absolute;
+">+</button>
+    <div id="scripts" class="scripts">
+		<div class="scriptElement">
+			<p class="generic">AuxnosLucyAnna<span class="owner">(owned by 0xb53)</span></p>
+			<div style="position: relative;">
+				<button class="button gkey">Generate key</button>
+				<img src="./info.png" class="infoP">
+			</div>
+					<div style="position: relative;">
+						<button style=" opacity:1;" class="button edit" onclick="window.location.replace('./scripts/Auxnos%27s%20Lucy%20Anna.rbxm')">Edit</button>
+					</div>
+					<div style="position: relative;">
+						<a href="javascript:void(0)"><img src="./favorite-false.png" style="position: absolute;height: 20px;width: 20px;position: absolute;top: 20px;right: 180px;"></a>
+					</div>
+						<br><p class="generic stype">Script, file</p>
+		</div>
+		<div class="scriptElement">
+			<p class="generic">CRMemeAntideath<span class="owner">(owned by Protofer_S)</span></p>
+			<div style="position: relative;">
+				<button class="button gkey">Generate key</button>
+				<img src="./info.png" class="infoP">
+			</div>
+					<div style="position: relative;">
+						<button style=" opacity:1;" class="button edit" onclick="window.location.replace('./scripts/CR%20Meme%20Antideath.rbxm')">Edit</button>
+					</div>
+					<div style="position: relative;">
+						<a href="javascript:void(0)"><img src="./favorite-false.png" style="position: absolute;height: 20px;width: 20px;position: absolute;top: 20px;right: 180px;"></a>
+					</div>
+						<br><p class="generic stype">Script, file</p>
+		</div>
+		<div class="scriptElement">
+			<p class="generic">DemolisherV1<span class="owner">(owned by KamblueJude)</span></p>
+			<div style="position: relative;">
+				<button class="button gkey">Generate key</button>
+				<img src="./info.png" class="infoP">
+			</div>
+					<div style="position: relative;">
+						<button style=" opacity:1;" class="button edit" onclick="window.location.replace('./scripts/Demolisher%20V1.rbxm')">Edit</button>
+					</div>
+					<div style="position: relative;">
+						<a href="javascript:void(0)"><img src="./favorite-false.png" style="position: absolute;height: 20px;width: 20px;position: absolute;top: 20px;right: 180px;"></a>
+					</div>
+						<br><p class="generic stype">Script, file</p>
+		</div>
+		<div class="scriptElement">
+			<p class="generic">ExelBexRAREGui<span class="owner">(owned by ExelBex)</span></p>
+			<div style="position: relative;">
+				<button class="button gkey">Generate key</button>
+				<img src="./info.png" class="infoP">
+			</div>
+					<div style="position: relative;">
+						<button style=" opacity:1;" class="button edit" onclick="window.location.replace('./scripts/ExelBex%27s%20RARE%20Gui.rbxm')">Edit</button>
+					</div>
+					<div style="position: relative;">
+						<a href="javascript:void(0)"><img src="./favorite-false.png" style="position: absolute;height: 20px;width: 20px;position: absolute;top: 20px;right: 180px;"></a>
+					</div>
+						<br><p class="generic stype">Script, file</p>
+		</div>
+		<div class="scriptElement">
+			<p class="generic">Incendiary<span class="owner">(owned by FruitPunchTY2)</span></p>
+			<div style="position: relative;">
+				<button class="button gkey">Generate key</button>
+				<img src="./info.png" class="infoP">
+			</div>
+					<div style="position: relative;">
+						<button style=" opacity:1;" class="button edit" onclick="window.location.replace('./scripts/Incendiary.rbxm')">Edit</button>
+					</div>
+					<div style="position: relative;">
+						<a href="javascript:void(0)"><img src="./favorite-false.png" style="position: absolute;height: 20px;width: 20px;position: absolute;top: 20px;right: 180px;"></a>
+					</div>
+						<br><p class="generic stype">Script, file</p>
+		</div>
+		<div class="scriptElement">
+			<p class="generic">JapanCyberMonarch<span class="owner">(owned by lucyxcya)</span></p>
+			<div style="position: relative;">
+				<button class="button gkey">Generate key</button>
+				<img src="./info.png" class="infoP">
+			</div>
+					<div style="position: relative;">
+						<button style=" opacity:1;" class="button edit" onclick="window.location.replace('./scripts/Japan%27s%20Cyber%20Monarch.rbxm')">Edit</button>
+					</div>
+					<div style="position: relative;">
+						<a href="javascript:void(0)"><img src="./favorite-false.png" style="position: absolute;height: 20px;width: 20px;position: absolute;top: 20px;right: 180px;"></a>
+					</div>
+						<br><p class="generic stype">Script, file</p>
+		</div>
+		<div class="scriptElement">
+			<p class="generic">JJK83Scripts<span class="owner">(owned by JJK83)</span></p>
+			<div style="position: relative;">
+				<button class="button gkey">Generate key</button>
+				<img src="./info.png" class="infoP">
+			</div>
+					<div style="position: relative;">
+						<button style=" opacity:1;" class="button edit" onclick="window.location.replace('./scripts/JJK83.rbxm')">Edit</button>
+					</div>
+					<div style="position: relative;">
+						<a href="javascript:void(0)"><img src="./favorite-false.png" style="position: absolute;height: 20px;width: 20px;position: absolute;top: 20px;right: 180px;"></a>
+					</div>
+						<br><p class="generic stype">Script, file</p>
+		</div>
+    </div>
+	<div class="scriptElement">
+		<p class="generic">ShizukaNeko<span class="owner">(owned by Shizuka)</span></p>
+		<div style="position: relative;">
+			<button class="button gkey">Generate key</button>
+			<img src="./info.png" class="infoP">
+		</div>
+				<div style="position: relative;">
+					<button style=" opacity:1;" class="button edit" onclick="window.location.replace('./scripts/Shizuka%27s%20Neko.rbxm')">Edit</button>
+				</div>
+				<div style="position: relative;">
+					<a href="javascript:void(0)"><img src="./favorite-false.png" style="position: absolute;height: 20px;width: 20px;position: absolute;top: 20px;right: 180px;"></a>
+				</div>
+					<br><p class="generic stype">Script, file</p>
+	</div>
+<div id="promptBG" class="bg">
+    <div id="promptApp" class="prompt">
+        <p class="promptText promptTitle">Script description</p> <br>
+        <p class="promptText" style="opacity: 0.7;">Description of: <code id="scriptName">witch</code></p>
+        <div id="scriptDescription" style="
+    max-width: 30em;
+    max-height: 20em;
+    min-height: 10em;
+    min-width: 15em;
+    overflow-y: overlay;
+"><p id="scriptDesc" class="promptText" style="
+    white-space: pre-wrap;
+    font-family: Consolas, monospace;
+">hello</p></div><button id="hideScript" class="button" style="margin-top: 20px;height: 35px;width: 27%;font-size: 70%;position: relative;">
+            OK
+        </button>
+        
+    </div>
+
+
+</div>
+<div id="notifications" style="pointer-events:none;position:absolute;right:20px;bottom: 20px;overflow-x:hidden;width: 200px;padding: 10px;">
+</div>
+
+
+</body></html>

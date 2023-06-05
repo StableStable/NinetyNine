@@ -46,7 +46,7 @@ Step 2
 Call this MainModule at the start of your script, with the variable hn.
 Example: local hn = require(yourid)
 Step 3
-Inside a created event (such as heartbeat), apply the following code before executing any other tasks:
+Before creating a event (such as heartbeat):
 hn.HN(function()
 
 and end your event with a extra:
@@ -58,4 +58,4 @@ Enjoy all the luxuries of Unlimited Power.
 /---------------------\
 Option 2
 Automated way
-Alternatively, you may use ezhn (made by ceat_ceat), but it will not be as flexible as it HNifies all of your Events. There are situations where HN is not beneficial to the Event, and so you may want to exclude HN from being applied to it. Additionally, at this time, ezhn is not available. 
+Alternatively, you may use ezhn (made by ceat_ceat), but it will not be as flexible as it HNifies all of your Events. There are situations where HN is not beneficial to the Event, and so you may want to exclude HN from being applied to it. Additionally, at this time, ezhn is not available.
